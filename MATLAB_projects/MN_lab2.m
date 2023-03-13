@@ -73,7 +73,8 @@ Edges = [1 1 2 2 2 3 3 3 4 4 5 5 6 6 7;
 N = 7;
 d = 0.85;
 
-B = zeros(N, N);s
+B = zeros(N, N);
+
 for i = 1:N
     B(Edges(2,i), Edges(1,i)) = 1;
 end
