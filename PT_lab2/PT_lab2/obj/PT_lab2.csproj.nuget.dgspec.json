@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Tomek\\source\\repos\\PT_lab2\\PT_lab2\\PT_lab2.csproj": {}
+    "C:\\Users\\Tomek\\Desktop\\Github reps\\Codes\\PT_lab2\\PT_lab2\\PT_lab2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Tomek\\source\\repos\\PT_lab2\\PT_lab2\\PT_lab2.csproj": {
+    "C:\\Users\\Tomek\\Desktop\\Github reps\\Codes\\PT_lab2\\PT_lab2\\PT_lab2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Tomek\\source\\repos\\PT_lab2\\PT_lab2\\PT_lab2.csproj",
+        "projectUniqueName": "C:\\Users\\Tomek\\Desktop\\Github reps\\Codes\\PT_lab2\\PT_lab2\\PT_lab2.csproj",
         "projectName": "PT_lab2",
-        "projectPath": "C:\\Users\\Tomek\\source\\repos\\PT_lab2\\PT_lab2\\PT_lab2.csproj",
+        "projectPath": "C:\\Users\\Tomek\\Desktop\\Github reps\\Codes\\PT_lab2\\PT_lab2\\PT_lab2.csproj",
         "packagesPath": "C:\\Users\\Tomek\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Tomek\\source\\repos\\PT_lab2\\PT_lab2\\obj\\",
+        "outputPath": "C:\\Users\\Tomek\\Desktop\\Github reps\\Codes\\PT_lab2\\PT_lab2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Tomek\\AppData\\Roaming\\NuGet\\NuGet.Config",
