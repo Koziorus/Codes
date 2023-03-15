@@ -75,7 +75,7 @@ d = 0.85;
 
 vert_num = size(Edges,2);
 
-b = linspace((1 - d)/N,(1 - d)/N,N)';
+b = linspace((1 - d)/N,(1 - d)/N, N)';
 
 B = zeros(N, N);
 
