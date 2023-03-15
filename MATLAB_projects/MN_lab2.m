@@ -73,18 +73,40 @@ Edges = [1 1 2 2 2 3 3 3 4 4 5 5 6 6 7;
 N = 7;
 d = 0.85;
 
+vert_num = size(Edges,2);
+
+b = linspace((1 - d)/N,(1 - d)/N,N)';
+
 B = zeros(N, N);
 
-for i = 1:N
+for i = 1:vert_num
     B(Edges(2,i), Edges(1,i)) = 1;
 end
 
-L = sum(B);
+B = sparse(B);
+
+L = 1./sum(B);
 A = diag(L);
 
-I = speye(N);
-% M = I - d * B * A;
+A = sparse(A);
 
+I = speye(N);
+M = I - d * B * A;
+
+List = whos("A", "B", "I", "M", "b");
+writetable(struct2table(List),'result1.txt');
+
+spy(B);
+title("Odnosniki stron");
+print -dpng spy_b
+
+r = M\b;
+
+bar(r);
+title("PageRank");
+xlabel("Strona")
+ylabel("Wartosc PR");
+print -dpng bar_r
 
 %% functions
 function plot_circle(X, Y, R, plot_range)
