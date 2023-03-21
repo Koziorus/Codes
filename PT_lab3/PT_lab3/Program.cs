@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
+using System.Xml.XPath;
 
 namespace PT_lab3
 {
@@ -45,11 +49,36 @@ namespace PT_lab3
                 Console.WriteLine($"{g.Key.ToString()}: {g.avgHppl.ToString()}");
             }
 
+            Console.WriteLine();
+
+            string carsCollectionFilePath = "C:\\Users\\Tomek\\Desktop\\PT_lab3 file\\CarsCollection.xml";
+
             XmlSerializer x = new XmlSerializer(myCars.GetType(), new XmlRootAttribute("cars"));
 
-            x.Serialize(File.OpenWrite("C:\\Users\\Tomek\\Desktop\\PT_lab3 file\\CarsCollection.xml"), myCars);
+            FileStream writer = File.OpenWrite(carsCollectionFilePath);
 
-            
+            x.Serialize(writer, myCars);
+
+            writer.Close();
+
+
+            XElement rootNode = XElement.Load(carsCollectionFilePath);
+            double avgHP = (double)rootNode.XPathEvaluate("sum(/car/motor[@model!=\"TDI\"]/horsePower) div count(/car/motor[@model!=\"TDI\"]/horsePower)");
+
+            Console.WriteLine(avgHP);
+
+            Console.WriteLine();
+
+            XmlNamespaceManager nsManager = new XmlNamespaceManager(new NameTable());
+            nsManager.AddNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+            nsManager.AddNamespace("xsd", "http://www.w3.org/2001/XMLSchema");
+
+            IEnumerable<XElement> models = rootNode.XPathSelectElements("car/model[not(. = preceding::model)]");
+
+            foreach(XElement model in models)
+            {
+                Console.WriteLine(model.Value);
+            }
         }
 
     }
