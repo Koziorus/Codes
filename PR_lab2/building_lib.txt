@@ -1,0 +1,14 @@
+STATIC
+gcc -c pr_thread.cpp -o pr_thread.o
+ar r lib_pr_thread.a pr_thread.o
+
+gcc -c pr_thread_test.cpp -o pr_thread_test.o
+g++ pr_thread_test.o lib_pr_thread.a -o pr_thread_test.exe -pthread
+
+
+DYNAMIC
+gcc -c -Wall -fPIC -D_GNU_SOURCE pr_thread.cpp
+g++ pr_thread.o -shared -o lib_pr_thread.so -pthread
+
+gcc -c pr_thread_test.cpp -o pr_thread_test.o
+g++ pr_thread_test.o -L. -l:lib_pr_thread.so -o pr_thread_test.exe -pthread
