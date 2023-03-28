@@ -93,7 +93,8 @@ plot(N, czas_Jacobi)
 figure
 plot(N, iterations)
 figure
-semilogy(residuals); % pod 2 indeksem jest liczba iteracji dla N = 1000
+
+plot(N, residuals);
 
 %% Zadanie F
 

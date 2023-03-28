@@ -4,7 +4,7 @@ function [output_M,output_b] = prepare_Mb(N, density)
 
 I = speye(N,N);
 
-B = sparse(Edges(2,:), Edges(1,:), ones(1,size(Edges,2)), N, N);
+B = sparse(Edges(2,:), Edges(1,:), 1, N, N);
 
 L = sum(B);
 d = 0.85;
