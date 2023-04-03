@@ -144,13 +144,13 @@ if __name__ == '__main__':
 
     # side-by-side (price) (MACD, SIGNAL)
     fig_seperate = plt.figure()
+
     ax1 = fig_seperate.add_subplot(211)
     ax2 = fig_seperate.add_subplot(212)
     ax1.plot(df['Data'], df['Kurs'], 'darkblue')
     ax1.set_xlabel('Data')
     ax1.set_ylabel('Wartość kursu USD')
     ax1.set_title('Kurs USD')
-
 
     ax2.plot(df['Data'], MACD, label='MACD')
     ax2.plot(df['Data'], SIGNAL, label='SIGNAL')
@@ -163,15 +163,19 @@ if __name__ == '__main__':
     fig_seperate.set_figwidth(15)
     fig_seperate.set_figheight(5)
 
+    fig_seperate.tight_layout()
+
     plt.show()
 
     # all-in-one (price, MACD, SIGNAL)
     fig_combined = plt.figure()
+
     axis_combined = fig_combined.add_subplot(111)
     axis_combined.plot(df['Data'], df['Kurs'], '-')
     axis_combined.plot(df['Data'], list(map(lambda x: x * 4 + 3.1, MACD)), label='MACD')
     axis_combined.plot(df['Data'], list(map(lambda x: x * 4 + 3.1, SIGNAL)), label='SIGNAL')
     axis_combined.legend()
+    axis_combined.set_title('Kurs USD i wskaźnik MACD')
 
     fig_combined.set_figwidth(15)
     fig_combined.set_figheight(5)
