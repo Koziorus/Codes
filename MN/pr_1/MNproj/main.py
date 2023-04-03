@@ -55,7 +55,7 @@ def get_intersections(MACD, SIGNAL, starting_day):
 
         previous_state = current_state
 
-    return buy_points, sell_points
+    return sell_points, buy_points
 
 
 def buy_sell(buy_points, sell_points, usd_prices, balance):
