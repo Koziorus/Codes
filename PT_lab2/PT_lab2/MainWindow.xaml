@@ -12,6 +12,7 @@
                 <MenuItem Header="File">
                     <MenuItem Header="Open" Click="browseFiles"/>
                     <MenuItem Header="Exit" Click="exitFromProgram" />
+                    <MenuItem Header="About" Click="aboutInformation" />
                 </MenuItem>
             </Menu>
         </DockPanel>

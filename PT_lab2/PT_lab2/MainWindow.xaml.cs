@@ -153,6 +153,17 @@ namespace PT_lab2
             System.Windows.Application.Current.Shutdown();
         }
 
+        void aboutInformation(object sender, RoutedEventArgs e)
+        {
+            string messageBoxText = "Autor: Tomasz Koźmiński 188682";
+            string caption = "Infromacje o programie";
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBoxImage icon = MessageBoxImage.Information;
+            MessageBoxResult result;
+
+            result = System.Windows.MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.Yes);
+        }
+
         private void deleteAtPath(object sender, RoutedEventArgs e)
         {
             ContextMenu contextMenu = (sender as MenuItem).Parent as ContextMenu;

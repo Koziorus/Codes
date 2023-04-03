@@ -13,6 +13,26 @@ namespace PT_lab3
 {
     internal class Program
     {
+
+        private static void createXMLFromLinq(List<Car> myCars)
+        {
+            IEnumerable<XElement> nodes = from c in myCars
+                                          select new
+                                          {
+                                              car = new XElement("car",
+                                                        new XElement("model",
+                                                        new XElement(c.model)),
+                                                        new XElement("year",c.year),
+                                                        new XElement("motor",
+                                                            new XElement("displacement",c.engine.displacement),
+                                                            new XElement("horsePower", c.engine.horsePower)))
+                                          });
+
+            XElement rootNode = new XElement("cars", nodes);
+
+            rootNode.Save("CarsFromLinq.xml");
+        }
+
         static void Main(string[] args)
         {
             List<Car> myCars = new List<Car>()
@@ -51,7 +71,7 @@ namespace PT_lab3
 
             Console.WriteLine();
 
-            string carsCollectionFilePath = "C:\\Users\\Tomek\\Desktop\\PT_lab3 file\\CarsCollection.xml";
+            string carsCollectionFilePath = "CarsCollection.xml";
 
             XmlSerializer x = new XmlSerializer(myCars.GetType(), new XmlRootAttribute("cars"));
 
@@ -79,6 +99,8 @@ namespace PT_lab3
             {
                 Console.WriteLine(model.Value);
             }
+
+            createXMLFromLinq(myCars);
         }
 
     }

@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Tomek\\Desktop\\Github reps\\my codes\\PT_lab3\\PT_lab3\\PT_lab3.csproj",
+      "projectUniqueName": "C:\\Users\\Tomek\\Desktop\\Github reps\\Codes\\PT_lab3\\PT_lab3\\PT_lab3.csproj",
       "projectName": "PT_lab3",
-      "projectPath": "C:\\Users\\Tomek\\Desktop\\Github reps\\my codes\\PT_lab3\\PT_lab3\\PT_lab3.csproj",
+      "projectPath": "C:\\Users\\Tomek\\Desktop\\Github reps\\Codes\\PT_lab3\\PT_lab3\\PT_lab3.csproj",
       "packagesPath": "C:\\Users\\Tomek\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Tomek\\Desktop\\Github reps\\my codes\\PT_lab3\\PT_lab3\\obj\\",
+      "outputPath": "C:\\Users\\Tomek\\Desktop\\Github reps\\Codes\\PT_lab3\\PT_lab3\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Tomek\\AppData\\Roaming\\NuGet\\NuGet.Config",
