@@ -24,7 +24,7 @@ function [xvect,xdif,fx,it_cnt] = bisection(fun,a,b,eps)
             xdif(i) = xvect(i-1) - xvect(i);
         end
 
-        if (abs(c) < eps) || (abs(fc) < eps)
+        if (abs(b-a) < eps) || (abs(fc) < eps)
             it_cnt = i;
             return
         elseif fc * fun(a) < 0
