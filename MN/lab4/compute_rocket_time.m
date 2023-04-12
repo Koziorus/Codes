@@ -5,6 +5,6 @@ function [value] = compute_rocket_time(t)
 
     v = 750;
 
-    value = u * ln(m_0 / (m_0 - q * t)) - g * t - v;
+    value = u * log(m_0 / (m_0 - q * t)) - g * t - v;
     return
 end
