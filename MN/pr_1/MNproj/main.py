@@ -12,7 +12,7 @@ def get_data(csv_file):
 
 def get_EMA(data, N, starting_day):
     # EMA = sum(A_i/B_i)
-    a = 1
+    a = 1   `
     A = 0
     B = 0
     alpha = 2.0 / (N + 1)
