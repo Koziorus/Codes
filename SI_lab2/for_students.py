@@ -80,7 +80,7 @@ def mutate(population, mutation_probability):
     return population
 
 items, knapsack_max_capacity = get_big()
-# print(items)
+print(items)
 
 population_size = 100
 generations = 200
