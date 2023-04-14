@@ -14,7 +14,7 @@ x = xvect(fx ~= 0);
 
 plot(1:size(x,2), x)
 
-semilogy(1:size(x,2) - 1, xdif(2:(size(x,2))))
+semilogy(1:size(x,2) - 1, abs(xdif(2:(size(x,2)))))
 
 
 
@@ -29,6 +29,8 @@ eps = 1e-12;
 x = xvect(fx ~= 0);
 x(end)
 
+plot(xvect(1,1:it_cnt))
+
 %%
 
 a = 0;
@@ -40,6 +42,8 @@ eps = 1e-12;
 x = xvect(fx ~= 0);
 x(end)
 
+plot(xvect(1,1:it_cnt))
+
 %%
 
 a = 1;   
@@ -50,6 +54,8 @@ eps = 1e-3;
 
 x = xvect(fx ~= 0);
 x(end)
+
+plot(xvect(1,1:it_cnt))
 
 %%
 options = optimset('Display', 'iter');
