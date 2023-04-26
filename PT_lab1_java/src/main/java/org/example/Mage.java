@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.Set;
 
@@ -9,6 +10,38 @@ public class Mage implements Comparable<Mage>
     private int level;
     private double power;
     private Set<Mage> apprentices;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public double getPower() {
+        return power;
+    }
+
+    public void setPower(double power) {
+        this.power = power;
+    }
+
+    public Set<Mage> getApprentices() {
+        return apprentices;
+    }
+
+    public void setApprentices(Set<Mage> apprentices) {
+        this.apprentices = apprentices;
+    }
 
     public Mage(String name, int level, double power, Set<Mage> apprentices) {
         this.name = name;
@@ -29,7 +62,6 @@ public class Mage implements Comparable<Mage>
     public int hashCode() {
         return Objects.hash(name, level, power, apprentices);
     }
-
 
 
     @Override
