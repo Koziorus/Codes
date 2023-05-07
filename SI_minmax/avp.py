@@ -4,7 +4,7 @@ from randomagent import RandomAgent
 from minmaxagent import MinMaxAgent
 
 connect4 = Connect4(width=7, height=6)
-agent = MinMaxAgent('x')
+agent = MinMaxAgent(depth=4, my_token='x')  # must be 'x', because the decide function has max(...)
 while not connect4.game_over:
     connect4.draw()
     try:
