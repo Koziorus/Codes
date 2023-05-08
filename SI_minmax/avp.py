@@ -2,9 +2,11 @@ from exceptions import GameplayException
 from connect4 import Connect4
 from randomagent import RandomAgent
 from minmaxagent import MinMaxAgent
+from alphabetaagent import AlphaBetaAgent
 
 connect4 = Connect4(width=7, height=6)
-agent = MinMaxAgent(depth=4, my_token='x')  # must be 'x', because the decide function has max(...)
+# agent = MinMaxAgent(depth=4, my_token='x')
+agent = AlphaBetaAgent(depth=4, my_token='o')
 while not connect4.game_over:
     connect4.draw()
     try:

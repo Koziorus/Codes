@@ -6,11 +6,11 @@ from exceptions import AgentException
 # x -> max
 # o -> min
 
-class MinMaxAgent:
-    def __init__(self, depth, my_token='x'):
+class AlphaBetaAgent:
+    def __init__(self, depth, my_token='o'):
         self.my_token = my_token
         self.search_depth = depth
-        assert my_token == 'x'
+        assert my_token == 'o'
 
     def heuristic(self, s):
         # h is positive for 'x'
@@ -41,7 +41,7 @@ class MinMaxAgent:
 
         return h
 
-    def minmax(self, s, x, d):
+    def alphabeta(self, s, x, d, alpha, beta):
         if s.game_over == True:
             if s.wins == 'x':
                 return 1
@@ -53,38 +53,42 @@ class MinMaxAgent:
             return self.heuristic(s)
         else:
             if x == 'x':
-                max_quality = -1
+                quality = -1
                 for possible_drop in s.possible_drops():
                     new_s = copy.deepcopy(s)
                     new_s.drop_token(possible_drop)
-                    quality = self.minmax(new_s, 'o', d - 1)
-                    if quality > max_quality:
-                        max_quality = quality
-
-                return max_quality
+                    quality = max(quality, self.alphabeta(new_s, 'o', d - 1, alpha, beta))
+                    alpha = max(alpha, quality)
+                    if alpha >= beta:
+                        break
+                return quality
             elif x == 'o':
-                min_quality = 1
+                quality = 1
                 for possible_drop in s.possible_drops():
                     new_s = copy.deepcopy(s)
                     new_s.drop_token(possible_drop)
-                    quality = self.minmax(new_s, 'x', d - 1)
-                    if quality < min_quality:
-                        min_quality = quality
+                    quality = min(quality, self.alphabeta(new_s, 'x', d - 1, alpha, beta))
+                    beta = min(beta, quality)
+                    if alpha >= beta:
+                        break
 
-                return min_quality
+                return quality
 
     def decide(self, connect4):
         if connect4.who_moves != self.my_token:
             raise AgentException('not my round')
 
+        beta = 1
         best_decision = 0
-        best_decision_quality = -1
+        best_decision_quality = 1
         for possible_drop in connect4.possible_drops():
             new_connect4 = copy.deepcopy(connect4)
             new_connect4.drop_token(possible_drop)
-            decision_quality = self.minmax(new_connect4, ('o' if self.my_token == 'x' else 'x'), self.search_depth)
-            if decision_quality >= best_decision_quality:
+            decision_quality = self.alphabeta(new_connect4, ('o' if self.my_token == 'x' else 'x'), self.search_depth,
+                                              alpha=-1, beta=beta)
+            if decision_quality <= best_decision_quality:
                 best_decision_quality = decision_quality
                 best_decision = possible_drop
+            beta = min(beta, best_decision_quality)
 
         return best_decision
