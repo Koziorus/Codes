@@ -55,6 +55,7 @@ public class Main
                     for(int i = 0; i <n_workers; i++)
                     {
                         div_workers[i].stop_worker();
+                        //div_workers[i].interrupt();
                     }
 
                     synchronized (tasks)
@@ -64,7 +65,6 @@ public class Main
 
                     for(int i = 0; i <n_workers; i++)
                     {
-                        System.out.println("ended");
                         div_workers[i].join();
                     }
 

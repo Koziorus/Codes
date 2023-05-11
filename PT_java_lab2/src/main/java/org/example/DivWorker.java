@@ -57,7 +57,5 @@ public class DivWorker extends Thread
                 return;
             }
         }
-
-
     }
 }
