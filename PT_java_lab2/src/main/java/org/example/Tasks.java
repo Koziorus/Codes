@@ -24,7 +24,14 @@ public class Tasks
 
     public synchronized int get_task() throws InterruptedException
     {
-        wait(); // waits for someone to notify
+        if(numbers_to_check.isEmpty())
+        {
+            wait(); // waits for someone to notify
+            if(numbers_to_check.isEmpty())
+            {
+                return -1; // signal to exit
+            }
+        }
 
         return numbers_to_check.removeFirst();
     }
