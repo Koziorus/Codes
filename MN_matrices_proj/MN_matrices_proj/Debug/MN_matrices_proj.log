@@ -1,0 +1,13 @@
+﻿  main.c
+C:\Users\Tomek\source\repos\MN_matrices_proj\MN_matrices_proj\main.c(21,20): warning C4013: 'malloc' undefined; assuming extern returning int
+C:\Users\Tomek\source\repos\MN_matrices_proj\MN_matrices_proj\main.c(24,38): warning C4047: '=': 'double **' differs in levels of indirection from 'int'
+C:\Users\Tomek\source\repos\MN_matrices_proj\MN_matrices_proj\main.c(32,41): warning C4047: '=': 'double *' differs in levels of indirection from 'int'
+C:\Users\Tomek\source\repos\MN_matrices_proj\MN_matrices_proj\main.c(21,1): warning C4047: 'initializing': 'Matrix *' differs in levels of indirection from 'int'
+C:\Users\Tomek\source\repos\MN_matrices_proj\MN_matrices_proj\main.c(97,33): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Tomek\source\repos\MN_matrices_proj\MN_matrices_proj\main.c(132,14): warning C4098: 'm_copy': 'void' function returning a value
+C:\Users\Tomek\source\repos\MN_matrices_proj\MN_matrices_proj\main.c(153,33): warning C4013: 'rand' undefined; assuming extern returning int
+C:\Users\Tomek\source\repos\MN_matrices_proj\MN_matrices_proj\main.c(246,7): warning C4013: 'srand' undefined; assuming extern returning int
+C:\Users\Tomek\source\repos\MN_matrices_proj\MN_matrices_proj\main.c(246,12): warning C4013: 'time' undefined; assuming extern returning int
+C:\Users\Tomek\source\repos\MN_matrices_proj\MN_matrices_proj\main.c(170): warning C4716: 'm_ew_mult': must return a value
+C:\Users\Tomek\source\repos\MN_matrices_proj\MN_matrices_proj\main.c(182): warning C4716: 'm_ew_add': must return a value
+  MN_matrices_proj.vcxproj -> C:\Users\Tomek\source\repos\MN_matrices_proj\Debug\MN_matrices_proj.exe
