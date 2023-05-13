@@ -241,6 +241,22 @@ Matrix* m_identity(int n)
 	return M;
 }
 
+// n x n diaognal 
+Matrix* m_diag(int n, double diag_value)
+{
+	Matrix* M = m_new(n, n, 0.0);
+
+	for (int i = 0; i < n; i++)
+	{
+		M->mat[i][j] = diag_value;
+	}
+
+	return M;
+}
+
+// TODO:
+// m_sum() -> sums by row / column / row and column
+
 int main()
 {
 	srand(time(NULL));
