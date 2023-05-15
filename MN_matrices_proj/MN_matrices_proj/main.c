@@ -65,6 +65,27 @@ Matrix* m_add(const Matrix* A, const Matrix* B)
 	return C;
 }
 
+Matrix* m_sub(const Matrix* A, const Matrix* B)
+{
+	if (A->n != B->n || A->m != B->m)
+	{
+		err("Unmatched matrix dimension");
+		return NULL;
+	}
+
+	Matrix* C = m_new(A->n, A->m, 0);
+
+	for (int i = 0; i < A->n; i++)
+	{
+		for (int j = 0; j < A->m; j++)
+		{
+			C->mat[i][j] = A->mat[i][j] - B->mat[i][j];
+		}
+	}
+
+	return C;
+}
+
 // maximum value from a matrix
 double m_max(const Matrix* M)
 {
@@ -242,13 +263,152 @@ Matrix* m_identity(int n)
 }
 
 // n x n diaognal 
-Matrix* m_diag(int n, double diag_value)
+Matrix* m_eye(int n, double diag_value)
 {
 	Matrix* M = m_new(n, n, 0.0);
 
 	for (int i = 0; i < n; i++)
 	{
-		M->mat[i][j] = diag_value;
+		M->mat[i][i] = diag_value;
+	}
+
+	return M;
+}
+
+Matrix* m_mult(Matrix* A, Matrix* B)
+{
+	Matrix* C = m_new(A->n, B->m, 0);
+
+	for (int i = 0; i < A->n; i++)
+	{
+		for (int j = 0; j < B->m; j++)
+		{
+			for (int k = 0; k < A->m; k++)
+			{
+				C->mat[i][j] += A->mat[i][k] * B->mat[k][j];
+			}
+		}
+	}
+
+	return C;
+}
+
+Matrix* m_res(Matrix* A, Matrix* x, Matrix* b)
+{
+	Matrix* A_times_x = m_mult(A, x);
+	Matrix* res = m_sub(A_times_x, b);
+	return res;
+}
+
+double m_norm(Matrix* x)
+{
+	double norm = 0;
+	for (int i = 0; i < x->n; i++)
+	{
+		norm += (x->mat[i][0]) * (x->mat[i][0]);
+	}
+
+	norm = sqrt(norm);
+
+	return norm;
+}
+
+int m_jacobi(Matrix* A, Matrix* b, Matrix* x, double theta, int max_iter) 
+{
+	int N = A->n;
+
+	double sum;
+
+	Matrix* x_old = m_new(x->n, x->m, 0);
+
+	int k;
+
+	for (k = 0; k < max_iter; k++) 
+	{
+		m_copy(x_old, x);
+
+		for (int i = 0; i < N; i++) 
+		{
+			sum = b->mat[i][0];
+			for (int j = 0; j < N; j++) 
+			{
+				if (j != i) {
+					sum -= A->mat[i][j] * x_old->mat[j][0];
+				}
+			}
+			x->mat[i][0] = sum / A->mat[i][i];
+		}
+
+		if (m_norm(m_res(A, x, b)) < theta)
+		{
+			break;
+		}
+	}
+
+	free(x_old);
+
+	return k;
+}
+
+int m_gauss_seidel(Matrix* A, Matrix* b, Matrix* x, double theta, int max_iter) 
+{
+	int N = A->n;
+
+	Matrix* x_old = m_new(x->n, x->m, 0);
+
+	int k;
+
+	for (k = 0; k < max_iter; k++)
+	{
+		m_copy(x_old, x);
+
+		for (int i = 0; i < N; i++) 
+		{
+			double sum = 0;
+			for (int j = 0; j < N; j++) 
+			{
+				if (j != i) {
+					sum += A->mat[i][j] * x->mat[j][0];
+				}
+			}
+			x->mat[i][0] = (b->mat[i][0] - sum) / A->mat[i][i];
+		}
+
+		if (m_norm(m_res(A, x, b)) < theta)
+		{
+			break;
+		}
+	}
+
+	return k;
+}
+
+
+
+Matrix* m_from_array(int n, int m, double* arr) {
+	Matrix* M = m_new(n, m, 0);
+
+	for (int i = 0; i < n; i++) 
+	{
+		for (int j = 0; j < m; j++) 
+		{
+			M->mat[i][j] +=  *(arr + i * m + j);
+		}
+	}
+
+	return M;
+}
+
+Matrix* m_diags(int n, int m, double* arr, int d)
+{
+	Matrix* M = m_new(n, m, 0);
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			M->mat[i][j] = (d / 2 - i + j >= 0 && d / 2 - i + j < d ? arr[d / 2 - i + j] : 0);
+		}
 	}
 
 	return M;
@@ -260,35 +420,53 @@ Matrix* m_diag(int n, double diag_value)
 int main()
 {
 	srand(time(NULL));
-	Matrix* A = m_new(5, 5, 3.0);
-	Matrix* B = m_new(5, 5, 4.0);
+	//double matrix_a[2][3] = { {1, 2, 3}, {4, 5, 6} };
+	//Matrix* A = m_from_array(2, 3, matrix_a[0]);
+	
+	// -------------------- Zadanie A
+	printf("\n-------------------- Zadanie A\n");
 
-	Matrix* C = m_add(A, B);
+	int e = 6; // 1 8 8 6 8 2
+	int f = 8;
+	double a_A[] = { -1, -1, 5+e, -1, -1 };
+	int N = 982; // 1 8 8 6 8 2
+	Matrix* A_A = m_diags(N, N, a_A, 5);
 
-	m_print(C, 2);
+	Matrix* b = m_new(N, 1, 0);
+	for (int i = 0; i < N; i++)
+	{
+		b->mat[i][0] = sin(i * (f + 1));
+	}
 
-	//A->mat[2][3] = 7543.4;
-	//B->mat[4][2] = 90.3;
+	// -------------------- Zadanie B
+	printf("\n-------------------- Zadanie B\n");
 
-	Matrix* R = m_d_random(5, 5, 10.0);
+	Matrix* x_jacobi_A = m_new(N, 1, 0);
+	int jacobi_iterations_A = m_jacobi(A_A, b, x_jacobi_A, 1e-9, 1000);
 
-	m_print(R, 2);
+	Matrix* x_gauss_A = m_new(N, 1, 0);
+	int gauss_iterations_A = m_gauss_seidel(A_A, b, x_gauss_A, 1e-9, 1000);
+	
+	printf("Number of iterations:\n");
+	printf("Jacobi: %d\n", jacobi_iterations_A);
+	printf("Gauss-Seidel: %d\n", gauss_iterations_A);
 
-	Matrix* column = m_get(R, FULL, 3);
+	// -------------------- Zadanie C
+	printf("\n-------------------- Zadanie C\n");
 
-	m_print(column, 2);
+	double a_C[] = { -1, -1, 3, -1, -1 };
 
-	Matrix* row = m_get(R, 2, FULL);
+	Matrix* A_C = m_diags(N, N, a_A, 5);
 
-	m_print(row, 2);
+	Matrix* x_jacobi_C = m_new(N, 1, 0);
+	int jacobi_iterations_C = m_jacobi(A_A, b, x_jacobi_C, 1e-9, 1000);
 
-	Matrix* full = m_get(R, FULL, FULL);
+	Matrix* x_gauss_C = m_new(N, 1, 0);
+	int gauss_iterations_C = m_gauss_seidel(A_A, b, x_gauss_C, 1e-9, 1000);
 
-	m_print(full, 2);
-
-	Matrix* single = m_get(R, 2, 4);
-
-	m_print(single, 2);
+	printf("Number of iterations:\n");
+	printf("Jacobi: %d\n", jacobi_iterations_C);
+	printf("Gauss-Seidel: %d\n", gauss_iterations_C);
 
 	return 0;
 }
