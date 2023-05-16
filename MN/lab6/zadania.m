@@ -76,7 +76,7 @@ for N = 1:71
 end
 
 figure
-plot(1:71, err)
+semilogy(1:71, err)
 title('Błąd aproksymacji')
 xlabel('Rząd aproksymacji')
 ylabel('Wartość błędu')
@@ -126,7 +126,7 @@ for N = 1:71
 end
 
 figure
-plot(1:71, err)
+semilogy(1:71, err)
 title('Błąd aproksymacji')
 xlabel('Rząd aproksymacji')
 ylabel('Wartość błędu')
