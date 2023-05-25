@@ -28,5 +28,5 @@ def clustering(kmeans_pp):
     print(f"Mean intra-class variance: {np.mean(intra_class_variance)}")
 
 if __name__=="__main__":
-    clustering(kmeans_pp = True)
-    #clustering(kmeans_pp = False)
+    #clustering(kmeans_pp = True)
+    clustering(kmeans_pp = False)
