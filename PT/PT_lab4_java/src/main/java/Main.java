@@ -1,16 +1,15 @@
 import jakarta.persistence.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
 
-// for now input commands like this: add/remove [enter] [param1] [param2] ... [enter]
 
 public class Main {
 
-    public static void add_to_db(EntityManager beer_manager)
+    public static void add_to_db(EntityManager beer_manager, Scanner scanner)
     {
-        // TODO: make this function take a String as a parameter that is the whole String line from the console, for example: "Piwo mocne 20 Warka"
-        Scanner scanner = new Scanner(System.in);
         System.out.println("(Piwo name cena browar) / (Browar name wartosc)");
         String object_type = scanner.next();
         if(object_type.equals("Piwo"))
@@ -54,10 +53,8 @@ public class Main {
         }
     }
 
-    public static void remove_from_db(EntityManager beer_manager)
+    public static void remove_from_db(EntityManager beer_manager, Scanner scanner)
     {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.println("(Piwo) / (Browar)");
         String object_type = scanner.next();
         if(object_type.equals("Piwo"))
@@ -120,22 +117,63 @@ public class Main {
         System.out.println(piwo_all);
     }
 
-    public static void main(String[] args) {
+    public static void query_db(EntityManager beer_manager, Scanner scanner)
+    {
+        System.out.println("1. Wszystkie browary, które posiadają piwa tańsze niż ... zł");
+        System.out.println("2. Wszystkie piwa z ceną niższą niż ... zł");
+        System.out.println("3. Wszystkie piwa z browaru ... z ceną większą niż ... zł");
+
+        String query_choice = scanner.next();
+        if(query_choice.equals("1"))
+        {
+            int cena = scanner.nextInt();
+            String query_str = "SELECT DISTINCT p.browar FROM Piwo p WHERE p.cena < " + Integer.toString(cena);
+            Query query = beer_manager.createQuery(query_str, Piwo.class);
+            List<Piwo> piwa = query.getResultList();
+            System.out.println(piwa);
+        }
+        else if(query_choice.equals("2"))
+        {
+            int cena = scanner.nextInt();
+            String query_str = "SELECT p FROM Piwo p WHERE p.cena < " + Integer.toString(cena);
+            Query query = beer_manager.createQuery(query_str, Piwo.class);
+            List<Piwo> piwa = query.getResultList();
+            System.out.println(piwa);
+        }
+        else if(query_choice.equals("3"))
+        {
+            String browar = scanner.next();
+            int cena = scanner.nextInt();
+            String query_str = "SELECT p FROM Piwo p WHERE p.cena > " + Integer.toString(cena) + " AND p.browar = '" + browar + "'";
+            Query query = beer_manager.createQuery(query_str, Piwo.class);
+            List<Piwo> piwa = query.getResultList();
+            System.out.println(piwa);
+        }
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("default");
         EntityManager beer_manager = factory.createEntityManager();
 
-        Scanner scanner = new Scanner(System.in);
+        File file = new File("input.txt");
+        Scanner scanner = new Scanner(file);
 
         for(int i = 0; i < 1000; i++)
         {
+            if(!scanner.hasNext())
+            {
+                scanner.close();
+                scanner = new Scanner(System.in);
+            }
+
             String input = scanner.next();
             if(input.equals("add"))
             {
-               add_to_db(beer_manager);
+               add_to_db(beer_manager, scanner);
             }
             else if(input.equals("remove"))
             {
-                remove_from_db(beer_manager);
+                remove_from_db(beer_manager, scanner);
             }
             else if(input.equals("show"))
             {
@@ -143,7 +181,7 @@ public class Main {
             }
             else if(input.equals("query"))
             {
-
+                query_db(beer_manager, scanner);
             }
             else
             {

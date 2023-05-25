@@ -3,7 +3,6 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
-<<<<<<< Updated upstream
     <persistence-unit name="default">
         <class>Piwo</class>
         <class>Browar</class>
@@ -18,10 +17,4 @@
             <property name="hibernate.format_sql" value="true"/>
         </properties>
     </persistence-unit>
-
-=======
-  <persistence-unit name="default">
-
-  </persistence-unit>
->>>>>>> Stashed changes
 </persistence>
