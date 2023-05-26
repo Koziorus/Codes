@@ -6,6 +6,8 @@
 
 #endif //MN_MATRICES_CPP_MATRIX_H
 
+#define PRINT_MATRIX_OPERATIONS
+
 
 /*
  *                  array of pointers               array of doubles
@@ -37,8 +39,6 @@ public:
 
     Vector & operator[](int row) const;
 
-    void print();
-
     Matrix operator+(const Matrix& right_matrix) const;
 
     Matrix operator-(const Matrix& right_matrix) const;
@@ -46,4 +46,8 @@ public:
     Matrix operator+(double scalar) const;
 
     Matrix operator-(double scalar) const;
+
+    Matrix operator*(const Matrix& right_matrix) const;
+
+    friend std::ostream& operator<< (std::ostream& out, const Matrix& matrix);
 };

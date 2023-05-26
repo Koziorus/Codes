@@ -6,6 +6,8 @@
 
 Vector::Vector(int length, double initializing_value)
 {
+    this->length = length;
+
     vector = new double[length];
 
     for(int i = 0; i < length; i++)
@@ -20,7 +22,7 @@ Vector::~Vector()
     delete[] vector;
 }
 
-double & Vector::operator[](int column) const
+double & Vector::operator[] (int column) const
 {
     return this->vector[column];
 }
