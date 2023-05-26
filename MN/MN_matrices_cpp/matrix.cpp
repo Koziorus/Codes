@@ -203,3 +203,11 @@ Matrix Matrix::operator* (const Matrix &matrix_B) const
 
     return result_matrix;
 }
+
+Matrix::Matrix(int rows, int columns, Matrix::Creation_flags flags)
+{
+    if(flags | Matrix::IDENTITY)
+    {
+        // TODO: create an identity matrix generator
+    }
+}
