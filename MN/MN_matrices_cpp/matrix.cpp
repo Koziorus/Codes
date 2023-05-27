@@ -204,10 +204,46 @@ Matrix Matrix::operator* (const Matrix &matrix_B) const
     return result_matrix;
 }
 
-Matrix::Matrix(int rows, int columns, Matrix::Creation_flags flags)
+Matrix Matrix::identity(int size)
 {
-    if(flags | Matrix::IDENTITY)
+    Matrix result_matrix = Matrix(size, size, 0);
+
+    for(int i = 0; i < size; i++)
     {
-        // TODO: create an identity matrix generator
+        result_matrix[i][i] = 1;
+    }
+
+    return result_matrix;
+}
+
+Matrix Matrix::band(int size, double* values, int values_length)
+{
+    Matrix band_matrix = Matrix(size, size, 0);
+
+    for(int row = 0; row < size; row++)
+    {
+        for(int column = 0; column < size; column++)
+        {
+            int index = values_length / 2 + column - row;
+
+            if(index >= 0 && index < values_length)
+            {
+                band_matrix[row][column] = values[index];
+            }
+        }
+    }
+
+    return band_matrix;
+}
+
+Matrix::Matrix( double (* func)(int), int rows, int columns) : Matrix(rows, columns, 0)
+{
+    for(int row = 0; row < rows; row++)
+    {
+        for(int column = 0; column < columns; column++)
+        {
+            (*this)[row][column] = func(column);
+        }
     }
 }
+

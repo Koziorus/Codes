@@ -18,18 +18,18 @@
 
 class Matrix
 {
-    enum Creation_flags
-    {
-        IDENTITY = 1,
-        // = 2
-        // = 4
-        // ...
-    };
 private:
     Vector** matrix; // array of Vector pointers
     int rows, columns;
 
 public:
+//    enum Creation_flags
+//    {
+//        IDENTITY = 1,
+//        BAND = 2,
+//        // = 4
+//        // ...
+//    };
 
     int get_rows() const;
 
@@ -37,13 +37,17 @@ public:
 
     Matrix(int rows, int columns, double initiliazing_value);
 
-    Matrix(int rows, int columns, Creation_flags flags);
-
     Matrix(Matrix const &matrix_to_copy_from);
 
     Matrix(Vector const &vector_to_copy_from);
 
+    Matrix(double (* func)(int), int rows, int columns);
+
     ~Matrix();
+
+    static Matrix identity(int size);
+
+    static Matrix band(int size, double* values, int values_length);
 
     Vector & operator[](int row) const;
 
@@ -58,6 +62,4 @@ public:
     Matrix operator*(const Matrix& right_matrix) const;
 
     friend std::ostream& operator<< (std::ostream& out, const Matrix& matrix);
-
-
 };
