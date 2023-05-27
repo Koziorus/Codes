@@ -19,6 +19,7 @@
 class Matrix
 {
 private:
+
     Vector** matrix; // array of Vector pointers
     int rows, columns;
 
@@ -31,9 +32,9 @@ public:
 //        // ...
 //    };
 
-    int get_rows() const;
+    bool is_lower_triangular() const;
 
-    int get_columns() const;
+    bool is_upper_triangular() const;
 
     Matrix(int rows, int columns, double initiliazing_value);
 
@@ -41,7 +42,9 @@ public:
 
     Matrix(Vector const &vector_to_copy_from);
 
-    Matrix(double (* func)(int), int rows, int columns);
+    Matrix(int rows, int columns, double (* func)(int));
+
+    Matrix(int rows, int columns, double** arr);
 
     ~Matrix();
 
@@ -49,17 +52,19 @@ public:
 
     static Matrix band(int size, double* values, int values_length);
 
-    Vector & operator[](int row) const;
+    Vector &operator[](int row) const;
 
-    Matrix operator+(const Matrix& right_matrix) const;
+    Matrix operator+(const Matrix &right_matrix) const;
 
-    Matrix operator-(const Matrix& right_matrix) const;
+    Matrix operator-(const Matrix &right_matrix) const;
 
     Matrix operator+(double scalar) const;
 
     Matrix operator-(double scalar) const;
 
-    Matrix operator*(const Matrix& right_matrix) const;
+    Matrix operator*(const Matrix &right_matrix) const;
 
-    friend std::ostream& operator<< (std::ostream& out, const Matrix& matrix);
+    Vector operator%(const Vector &vector_b) const; // forward / backward substitution
+
+    friend std::ostream &operator<<(std::ostream &out, const Matrix &matrix);
 };
