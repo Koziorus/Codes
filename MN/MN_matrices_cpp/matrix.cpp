@@ -2,9 +2,7 @@
 #include <valarray>
 #include "matrix.h"
 
-// TODO: do checks in every method/operator if the dimensions check
-
-Matrix::Matrix(int rows, int columns, double initiliazing_value)
+Matrix::Matrix(int rows, int columns, double initializing_value)
 {
     this->rows = rows;
     this->columns = columns;
@@ -12,7 +10,7 @@ Matrix::Matrix(int rows, int columns, double initiliazing_value)
     matrix = new Vector* [rows];
     for(int i = 0; i < rows; i++)
     {
-        matrix[i] = new Vector(columns, initiliazing_value);
+        matrix[i] = new Vector(columns, initializing_value);
     }
 }
 
@@ -171,19 +169,7 @@ Matrix Matrix::operator*(const Matrix &matrix_B) const
     return result_matrix;
 }
 
-Matrix Matrix::identity(int size)
-{
-    Matrix result_matrix = Matrix(size, size, 0.0);
-
-    for(int i = 0; i < size; i++)
-    {
-        result_matrix[i][i] = 1;
-    }
-
-    return result_matrix;
-}
-
-Matrix Matrix::band(int size, double* values, int values_length)
+Matrix Matrix::band(int size, const double* values, int values_length)
 {
     Matrix band_matrix = Matrix(size, size, 0.0);
 
@@ -345,6 +331,8 @@ Matrix Matrix::jacobi_solve(const Matrix &matrix_A, const Matrix &vector_b, doub
     {
         throw std::runtime_error("not a column vector!");
     }
+
+    return Matrix(0, 0, 0.0);
 }
 
 Matrix Matrix::get_lower_triangular(const Matrix &matrix, bool with_diagonal)
@@ -428,4 +416,11 @@ Matrix Matrix::operator!() const
 bool Matrix::is_square() const
 {
     return this->rows == this->columns;
+}
+
+Matrix Matrix::identity(int size)
+{
+    double value_one[1] = {1.0};
+
+    return band(size, value_one, 1);
 }

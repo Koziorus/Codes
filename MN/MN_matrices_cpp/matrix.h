@@ -6,7 +6,7 @@
 
 #endif //MN_MATRICES_CPP_MATRIX_H
 
-#define PRINT_MATRIX_OPERATIONS
+#define PRINT_MATRIX_OPERATIONS // used to print whenever operators are used
 
 /*
  *                  array of pointers               array of doubles
@@ -38,7 +38,7 @@ public:
 
     bool is_square() const;
 
-    Matrix(int rows, int columns, double initiliazing_value);
+    Matrix(int rows, int columns, double initializing_value);
 
     Matrix(Matrix const &matrix_to_copy_from);
 
@@ -48,17 +48,17 @@ public:
 
     ~Matrix();
 
+    static Matrix band(int size, const double* values, int values_length);
+
     static Matrix identity(int size);
 
-    static Matrix band(int size, double* values, int values_length);
-
-    static Matrix jacobi_solve(const Matrix & matrix_A, const Matrix & vector_b, double max_error);
+    static Matrix jacobi_solve(const Matrix &matrix_A, const Matrix &vector_b, double max_error);
 
     static Matrix get_lower_triangular(const Matrix &matrix, bool with_diagonal);
 
     static Matrix get_upper_triangular(const Matrix &matrix, bool with_diagonal);
 
-    static double norm(const Matrix & vector);
+    static double norm(const Matrix &vector);
 
     Vector &operator[](int row) const;
 

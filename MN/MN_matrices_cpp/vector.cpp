@@ -20,7 +20,7 @@ Vector::~Vector()
     delete[] vector;
 }
 
-double & Vector::operator[] (int column) const
+double &Vector::operator[](int column) const
 {
     return this->vector[column];
 }

@@ -8,20 +8,11 @@ class Matrix;
 class Vector
 {
 private:
-
-
     int length;
 
     double* vector;
 
 public:
-    enum Creation_flags
-    {
-        ROW = 1,
-        COLUMN = 2
-        // = 4
-    };
-
     Vector();
 
     Vector(int length, double* arr);
@@ -30,7 +21,7 @@ public:
 
     ~Vector();
 
-    double & operator[](int column) const;
+    double &operator[](int column) const;
 
     friend class Matrix;
 };
