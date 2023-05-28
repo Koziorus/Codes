@@ -1,7 +1,3 @@
-//
-// Created by Tomek on 25.05.2023.
-//
-
 #include "vector.h"
 
 #include <iostream>
@@ -27,13 +23,6 @@ Vector::~Vector()
 double & Vector::operator[] (int column) const
 {
     return this->vector[column];
-}
-
-Vector::Vector(const Matrix &matrix, int index, Vector::Creation_flags flag)
-{
-    // TODO vector
-    // flag ROW -> row from matrix
-    // flag COLUMN -> column from matrix
 }
 
 Vector::Vector()
