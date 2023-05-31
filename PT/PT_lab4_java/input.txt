@@ -1,0 +1,7 @@
+add Browar Warka 5
+add Browar Zubr 10
+add Piwo mocne 25 Zubr
+add Piwo jasne 15 Zubr
+add Piwo czerwone 20 Warka
+add Piwo kwasne 10 Warka
+add Piwo drogie 35 Warka
