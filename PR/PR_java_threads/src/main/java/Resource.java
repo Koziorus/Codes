@@ -2,8 +2,7 @@ import java.util.ArrayList;
 
 public class Resource
 {
-    int counter = 0;
-    int MAX_NUM = 100;
+    int MAX_NUM;
 
     ArrayList<Integer> number_array = new ArrayList<>();
 

@@ -4,8 +4,11 @@ public class Main
     {
         int num_of_workers = 2;
 
-        for (int i = 0; i < num_of_workers; i++) {
-            (new Thread(new Worker())).start();
+        Resource resource = new Resource(1000);
+
+        for (int i = 0; i < num_of_workers; i++)
+        {
+            (new Thread(new Worker(resource, i))).start();
         }
 
 

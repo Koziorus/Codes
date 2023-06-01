@@ -4,12 +4,13 @@ public class Worker implements Runnable
 {
     int id;
     Resource resource;
-    int limit;
 
-    Worker(Resource resource, int limit)
+    private static final Object lock = new Object();
+
+    Worker(Resource resource, int id)
     {
         this.resource = resource;
-        this.limit = limit;
+        this.id = id;
     }
 
 
@@ -20,15 +21,30 @@ public class Worker implements Runnable
 
         while (true)
         {
-            int random_number = rand.nextInt(limit);
+            int random_number = rand.nextInt(resource.MAX_NUM);
             boolean success = resource.input_number(random_number);
-            if (success)
+
+            synchronized (lock)
             {
-                System.out.println(random_number);
+                System.out.print(id + " -> ");
+
+                if (success)
+                {
+                    System.out.println(random_number);
+                }
+                else
+                {
+                    System.out.println("Already exists: " + random_number);
+                }
             }
-            else
+
+            try
             {
-                System.out.println("Already exists: ", Integer.parseInt(random_number));
+                Thread.sleep(50, 0);
+            }
+            catch (InterruptedException e)
+            {
+                throw new RuntimeException(e);
             }
         }
 
