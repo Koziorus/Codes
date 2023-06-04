@@ -20,7 +20,7 @@ Matrix::Matrix(Matrix const &matrix_to_copy_from) : Matrix(matrix_to_copy_from.r
     {
         for(int j = 0; j < columns; j++)
         {
-            (*matrix[i])[j] = (*matrix_to_copy_from.matrix[i])[j];
+            (*this)[i][j] = matrix_to_copy_from[i][j];
         }
     }
 }
@@ -325,14 +325,31 @@ Matrix Matrix::operator-() const
     return result_matrix;
 }
 
-Matrix Matrix::jacobi_solve(const Matrix &matrix_A, const Matrix &vector_b, double max_error)
+Matrix Matrix::jacobi_solve(const Matrix &A, const Matrix &b, double max_error)
 {
-    if(vector_b.columns != 1)
+    if(b.columns != 1)
     {
         throw std::runtime_error("not a column vector!");
     }
 
-    return Matrix(0, 0, 0.0);
+    Matrix r = Matrix(A.columns, 1, 1.0);
+    Matrix L = Matrix::get_lower_triangular(A, false);
+    Matrix U = Matrix::get_upper_triangular(A, false);
+    Matrix D = Matrix::get_diagonal(A);
+
+    Matrix X = (-D)%(L+U);
+    Matrix Y = D%b;
+    r = (X * r) + Y;
+
+    Matrix res = (A*r) - b;
+
+    while(norm(res) > max_error)
+    {
+        r = (X * r) + Y;
+        res = (A * r) - b;
+    }
+
+    return r;
 }
 
 Matrix Matrix::get_lower_triangular(const Matrix &matrix, bool with_diagonal)
@@ -420,7 +437,70 @@ bool Matrix::is_square() const
 
 Matrix Matrix::identity(int size)
 {
-    double value_one[1] = {1.0};
+    return Matrix::get_diagonal(Matrix(size, size, 1.0));
+}
 
-    return band(size, value_one, 1);
+Matrix Matrix::get_diagonal(const Matrix &matrix)
+{
+    Matrix diagonal_matrix = Matrix(matrix.rows, matrix.columns, 0.0);
+    for(int row = 0; row < matrix.rows; ++row)
+    {
+        diagonal_matrix[row][row] = matrix[row][row];
+    }
+
+    return diagonal_matrix;
+}
+
+Matrix& Matrix::operator=(const Matrix &right_matrix)
+{
+    if(this->rows != right_matrix.rows || this->columns != right_matrix.columns)
+    {
+        throw std::runtime_error("Unmatched dimensions!");
+    }
+
+    for(int row = 0; row < right_matrix.rows; ++row)
+    {
+        for(int column = 0; column < right_matrix.columns; ++column)
+        {
+            (*this)[row][column] = right_matrix[row][column];
+        }
+    }
+
+    return *this;
+}
+
+Matrix Matrix::gauss_solve(const Matrix &A, const Matrix &b, double max_error)
+{
+    if(b.columns != 1)
+    {
+        throw std::runtime_error("not a column vector!");
+    }
+
+    Matrix r = Matrix(A.columns, 1, 1.0);
+    Matrix L = Matrix::get_lower_triangular(A, false);
+    Matrix U = Matrix::get_upper_triangular(A, false);
+    Matrix D = Matrix::get_diagonal(A);
+
+    Matrix I = Matrix::identity(A.columns);
+    Matrix X = -(D+L) % I;
+    Matrix Y = (D+L) % b;
+    r = (X * (U*r)) + Y;
+
+    Matrix res = (A*r) - b;
+
+    while(norm(res) > max_error)
+    {
+        r = X * (U*r) + Y;
+        res = (A * r) - b;
+    }
+
+    return r;
+}
+
+Matrix Matrix::LU_factorization_solve(const Matrix &A, const Matrix &b, double max_error)
+{
+    // TODO
+    // LU decomposition
+    // LU factorization
+
 }

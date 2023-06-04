@@ -6,7 +6,7 @@
 
 #endif //MN_MATRICES_CPP_MATRIX_H
 
-#define PRINT_MATRIX_OPERATIONS // used to print whenever operators are used
+//#define PRINT_MATRIX_OPERATIONS // used to print whenever operators are used
 
 /*
  *                  array of pointers               array of doubles
@@ -52,11 +52,17 @@ public:
 
     static Matrix identity(int size);
 
-    static Matrix jacobi_solve(const Matrix &matrix_A, const Matrix &vector_b, double max_error);
+    static Matrix jacobi_solve(const Matrix &A, const Matrix &b, double max_error);
+
+    static Matrix gauss_solve(const Matrix &A, const Matrix &b, double max_error);
+
+    static Matrix LU_factorization_solve(const Matrix &A, const Matrix &b, double max_error);
 
     static Matrix get_lower_triangular(const Matrix &matrix, bool with_diagonal);
 
     static Matrix get_upper_triangular(const Matrix &matrix, bool with_diagonal);
+
+    static Matrix get_diagonal(const Matrix &matrix);
 
     static double norm(const Matrix &vector);
 
@@ -77,6 +83,8 @@ public:
     Matrix operator%(const Matrix &matrix_B) const; // forward, backward substitution
 
     Matrix operator-() const;
+
+    Matrix& operator=(const Matrix &right_matrix);
 
     friend std::ostream &operator<<(std::ostream &out, const Matrix &matrix);
 };

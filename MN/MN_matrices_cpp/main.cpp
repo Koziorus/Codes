@@ -27,6 +27,7 @@ double sinf(int n)
 
 int main()
 {
+    setbuf(stdout, 0);
 //    double values[] = {3, 2, 1, 2, 3};
 //
 //    Matrix band_matrix = Matrix::band(10, values, 5);
@@ -37,32 +38,24 @@ int main()
 //
 //    std::cout<<b;
 
-    double** A_out;
-    double A_in[4][4] = {{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}};
-    CONVERT_STATIC_TO_DYNAMIC(A_in, 4, 4, A_out);
-    Matrix D = Matrix(4, 4, A_out);
+    double** p_out;
+    double p_in[4][4] = {{1.0000,-0.2833,-0.2833,-0.4250},{-0.4250,1.0000,-0.2833,-0.4250},{0,-0.2833,1.0000,0},{-0.4250,-0.2833,-0.2833,1.0000}};
+    CONVERT_STATIC_TO_DYNAMIC(p_in, 4, 4, p_out);
+    Matrix P = Matrix(4, 4, p_out);
 
-    //setbuf(stdout, 0);
+    double** q_out;
+    double q_in[4][1] = {{0.0375}, {0.0375}, {0.0375}, {0.0375}};
+    CONVERT_STATIC_TO_DYNAMIC(q_in, 4, 1, q_out);
+    Matrix q = Matrix(4, 1, q_out);
 
-    double** LU_out;
-    double LU_in[4][4] = {{0, -0.4250, -0.2833, -0.4250}, {0, 0, -0.2833, -0.4250}, {-0.4250, -0.4250, 0, 0}, {-0.4250, 0, -0.2833, 0}};
-    CONVERT_STATIC_TO_DYNAMIC(LU_in, 4, 4, LU_out);
-    Matrix LU = Matrix(4, 4, LU_out);
+    std::cout << P << "\n" << q << "\n";
 
-    double** b_out;
-    double b_in[4][1] = {{0.0375}, {0.0375}, {0.0375}, {0.0375}};
-    CONVERT_STATIC_TO_DYNAMIC(b_in, 4, 1, b_out);
-    Matrix b = Matrix(4, 1, b_out);
+    std::cout << Matrix::gauss_solve(P, q, 1e-2);
+    std::cout<<"\n";
+    std::cout << Matrix::jacobi_solve(P, q, 1e-2);
 
-    Matrix X = (-D) % LU;
-    Matrix Y = D % b;
-
-    //std::cout << Y;
-
-    std::cout<<Matrix::identity(10);
-
-    DELETE_DYNAMIC(A_out, 4);
-    DELETE_DYNAMIC(LU_out, 4);
+    DELETE_DYNAMIC(p_out, 4);
+    DELETE_DYNAMIC(q_out, 4);
 
     return 0;
 }
