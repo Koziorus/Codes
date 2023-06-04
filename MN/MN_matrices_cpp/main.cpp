@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <ctime>
+#include <fstream>
 
 #include "matrix.h"
 
@@ -25,26 +26,58 @@ double sinf(int n)
     return sin(n * (f + 1));
 }
 
+void out_array(double* arr, int n, std::string file_path)
+{
+    std::ofstream data_file(file_path);
+    for(int i = 0; i < n; ++i)
+    {
+        data_file << arr[i] << "\n";
+    }
+    data_file.close();
+}
+
+void plot(std::string parameters)
+{
+    std::string command = "matlab -nodesktop -nosplash -noFigureWindows -r ";
+    std::string system_command = command + "\"" + parameters + "quit;" + "\"";
+
+    system(system_command.c_str());
+}
+
 void problem_A_B()
 {
     int N = 982;
     double e = 6; // 188682
     double values[] = {-1, -1, 5 + e, -1, -1};
 
-    Matrix A = Matrix::band(N, values, sizeof(values)/sizeof(values[0]));
+    Matrix A = Matrix::band(N, values, sizeof(values) / sizeof(values[0]));
     Matrix b = Matrix(N, 1, sinf);
 
     double max_error = 1e-9;
 
     clock_t jacobi_timer = clock();
     Matrix::jacobi_solve(A, b, max_error);
-    double jacobi_time = 1000.0 * (clock() - jacobi_timer)/ CLOCKS_PER_SEC;
-    std::cout<<"Jacobi time: "<<jacobi_time<<"ms\n";
+    double jacobi_time = 1000.0 * (clock() - jacobi_timer) / CLOCKS_PER_SEC;
+    std::cout << "Jacobi time: " << jacobi_time << "ms\n";
 
     clock_t gauss_timer = clock();
     Matrix::gauss_solve(A, b, max_error);
     double gauss_time = 1000.0 * (clock() - gauss_timer) / CLOCKS_PER_SEC;
-    std::cout<<"Gauss time: "<<gauss_time<<"ms\n";
+    std::cout << "Gauss time: " << gauss_time << "ms\n";
+
+    double Y[2] = {jacobi_time, gauss_time};
+
+    out_array(Y, 2, "times.txt");
+
+    plot("\
+\
+Y = load('times.txt');\
+plot(Y);\
+xlabel('iksy');\
+title('titl');\
+saveas(gcf, 'plot.png');\
+\
+         ");
 }
 
 void problem_C()
@@ -52,20 +85,20 @@ void problem_C()
     int N = 982;
     double values[] = {-1, -1, 3, -1, -1};
 
-    Matrix A = Matrix::band(N, values, sizeof(values)/sizeof(values[0]));
+    Matrix A = Matrix::band(N, values, sizeof(values) / sizeof(values[0]));
     Matrix b = Matrix(N, 1, sinf);
 
     double max_error = 1e-9;
 
     clock_t jacobi_timer = clock();
     Matrix::jacobi_solve(A, b, max_error);
-    double jacobi_time = 1000.0 * (clock() - jacobi_timer)/ CLOCKS_PER_SEC;
-    std::cout<<"Jacobi time: "<<jacobi_time<<"ms\n";
+    double jacobi_time = 1000.0 * (clock() - jacobi_timer) / CLOCKS_PER_SEC;
+    std::cout << "Jacobi time: " << jacobi_time << "ms\n";
 
     clock_t gauss_timer = clock();
     Matrix::gauss_solve(A, b, max_error);
     double gauss_time = 1000.0 * (clock() - gauss_timer) / CLOCKS_PER_SEC;
-    std::cout<<"Gauss time: "<<gauss_time<<"ms\n";
+    std::cout << "Gauss time: " << gauss_time << "ms\n";
 }
 
 void problem_D()
@@ -73,15 +106,15 @@ void problem_D()
     int N = 982;
     double values[] = {-1, -1, 3, -1, -1};
 
-    Matrix A = Matrix::band(N, values, sizeof(values)/sizeof(values[0]));
+    Matrix A = Matrix::band(N, values, sizeof(values) / sizeof(values[0]));
     Matrix b = Matrix(N, 1, sinf);
 
     clock_t LU_timer = clock();
     Matrix x = Matrix::LU_factorization_solve(A, b);
     double LU_time = 1000.0 * (clock() - LU_timer) / CLOCKS_PER_SEC;
-    std::cout<<"LU time: "<<LU_time<<"ms\n";
+    std::cout << "LU time: " << LU_time << "ms\n";
 
-    std::cout<<"LU residual norm: "<<Matrix::norm(A*x - b)<<"\n";
+    std::cout << "LU residual norm: " << Matrix::norm(A * x - b) << "\n";
 }
 
 void problem_E()
@@ -91,23 +124,25 @@ void problem_E()
     double values[] = {-1, -1, 5 + e, -1, -1};
 
     double max_error = 1e-9;
-    for(int i = 0; i < sizeof(N)/sizeof(N[0]); ++i)
+    for(int i = 0; i < sizeof(N) / sizeof(N[0]); ++i)
     {
-        Matrix A = Matrix::band(N[i], values, sizeof(values)/sizeof(values[0]));
+        Matrix A = Matrix::band(N[i], values, sizeof(values) / sizeof(values[0]));
         Matrix b = Matrix(N[i], 1, sinf);
 
-        std::cout<<"N: "<<N[i]<<"\n";
+        std::cout << "N: " << N[i] << "\n";
         clock_t jacobi_timer = clock();
         Matrix::jacobi_solve(A, b, max_error);
-        double jacobi_time = 1000.0 * (clock() - jacobi_timer)/ CLOCKS_PER_SEC;
-        std::cout<<"\tJacobi time: "<<jacobi_time<<"ms\n";
+        double jacobi_time = 1000.0 * (clock() - jacobi_timer) / CLOCKS_PER_SEC;
+        std::cout << "\tJacobi time: " << jacobi_time << "ms\n";
 
         clock_t gauss_timer = clock();
         Matrix::gauss_solve(A, b, max_error);
         double gauss_time = 1000.0 * (clock() - gauss_timer) / CLOCKS_PER_SEC;
-        std::cout<<"\tGauss time: "<<gauss_time<<"ms\n";
+        std::cout << "\tGauss time: " << gauss_time << "ms\n";
     }
 }
+
+
 
 int main()
 {
