@@ -1,3 +1,0 @@
-C:/Users/Tomek/Desktop/Github reps/my codes/MN/MN_matrices_cpp/cmake-build-debug/CMakeFiles/MN_matrices_cpp.dir
-C:/Users/Tomek/Desktop/Github reps/my codes/MN/MN_matrices_cpp/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Tomek/Desktop/Github reps/my codes/MN/MN_matrices_cpp/cmake-build-debug/CMakeFiles/rebuild_cache.dir

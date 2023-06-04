@@ -195,7 +195,7 @@ Matrix::Matrix(int rows, int columns, double (* func)(int)) : Matrix(rows, colum
     {
         for(int column = 0; column < columns; column++)
         {
-            (*this)[row][column] = func(column);
+            (*this)[row][column] = func(row);
         }
     }
 }
@@ -337,16 +337,23 @@ Matrix Matrix::jacobi_solve(const Matrix &A, const Matrix &b, double max_error)
     Matrix U = Matrix::get_upper_triangular(A, false);
     Matrix D = Matrix::get_diagonal(A);
 
-    Matrix X = (-D)%(L+U);
-    Matrix Y = D%b;
+    Matrix X = (-D) % (L + U);
+    Matrix Y = D % b;
     r = (X * r) + Y;
 
-    Matrix res = (A*r) - b;
+    Matrix res = (A * r) - b;
+    double old_res_norm = norm(res);
 
     while(norm(res) > max_error)
     {
         r = (X * r) + Y;
+        old_res_norm = norm(res);
         res = (A * r) - b;
+
+        if(norm(res) > old_res_norm)
+        {
+            throw std::runtime_error("residual increasing!");
+        }
     }
 
     return r;
@@ -451,7 +458,7 @@ Matrix Matrix::get_diagonal(const Matrix &matrix)
     return diagonal_matrix;
 }
 
-Matrix& Matrix::operator=(const Matrix &right_matrix)
+Matrix &Matrix::operator=(const Matrix &right_matrix)
 {
     if(this->rows != right_matrix.rows || this->columns != right_matrix.columns)
     {
@@ -482,25 +489,70 @@ Matrix Matrix::gauss_solve(const Matrix &A, const Matrix &b, double max_error)
     Matrix D = Matrix::get_diagonal(A);
 
     Matrix I = Matrix::identity(A.columns);
-    Matrix X = -(D+L) % I;
-    Matrix Y = (D+L) % b;
-    r = (X * (U*r)) + Y;
+    Matrix X = -(D + L) % I;
+    Matrix Y = (D + L) % b;
+    r = (X * (U * r)) + Y;
 
-    Matrix res = (A*r) - b;
+    Matrix res = (A * r) - b;
 
     while(norm(res) > max_error)
     {
-        r = X * (U*r) + Y;
+        r = X * (U * r) + Y;
         res = (A * r) - b;
     }
 
     return r;
 }
 
-Matrix Matrix::LU_factorization_solve(const Matrix &A, const Matrix &b, double max_error)
+Matrix Matrix::LU_factorization_solve(const Matrix &A, const Matrix &b)
 {
-    // TODO
-    // LU decomposition
-    // LU factorization
+    Matrix U = Matrix(A.rows, A.columns, 0.0);
+    Matrix L = Matrix(A.rows, A.columns, 0.0);
 
+    LU_decomposition(A, L, U);
+
+    Matrix temp = (L % b);
+    Matrix x = U % temp;
+
+    return x;
+}
+
+void Matrix::LU_decomposition(const Matrix &M, Matrix &L, Matrix &U)
+{
+    if(M.rows != M.columns)
+    {
+        throw std::runtime_error("not a square matrix!");
+    }
+
+    for(int i = 0; i < M.rows; i++)
+    {
+        for(int j = i; j < M.rows; j++)
+        {
+            double sum = 0;
+            for(int k = 0; k < i; k++)
+            {
+                sum += (L[i][k] * U[k][j]);
+            }
+
+            U[i][j] = M[i][j] - sum;
+        }
+
+        for(int j = i; j < M.rows; j++)
+        {
+            if(i == j)
+            {
+                L[i][i] = 1;
+            }
+            else
+            {
+                double sum = 0.0;
+                for(int k = 0; k < i; k++)
+                {
+                    sum += (L[j][k] * U[k][i]);
+                }
+
+                L[j][i] = (M[j][i] - sum) / U[i][i];
+            }
+        }
+    }
 }

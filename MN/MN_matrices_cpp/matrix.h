@@ -56,7 +56,9 @@ public:
 
     static Matrix gauss_solve(const Matrix &A, const Matrix &b, double max_error);
 
-    static Matrix LU_factorization_solve(const Matrix &A, const Matrix &b, double max_error);
+    static void LU_decomposition(const Matrix &M, Matrix &L, Matrix &U);
+
+    static Matrix LU_factorization_solve(const Matrix &A, const Matrix &b);
 
     static Matrix get_lower_triangular(const Matrix &matrix, bool with_diagonal);
 
