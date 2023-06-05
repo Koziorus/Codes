@@ -52,9 +52,9 @@ public:
 
     static Matrix identity(int size);
 
-    static Matrix jacobi_solve(const Matrix &A, const Matrix &b, double max_error);
+    static Matrix jacobi_solve(const Matrix &A, const Matrix &b, double max_error, std::string residual_out_path);
 
-    static Matrix gauss_solve(const Matrix &A, const Matrix &b, double max_error);
+    static Matrix gauss_solve(const Matrix &A, const Matrix &b, double max_error, std::string residual_out_path);
 
     static void LU_decomposition(const Matrix &M, Matrix &L, Matrix &U);
 

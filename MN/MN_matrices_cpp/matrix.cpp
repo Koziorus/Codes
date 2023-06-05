@@ -1,5 +1,6 @@
 #include <iomanip>
 #include <valarray>
+#include <fstream>
 #include "matrix.h"
 
 Matrix::Matrix(int rows, int columns, double initializing_value)
@@ -325,7 +326,7 @@ Matrix Matrix::operator-() const
     return result_matrix;
 }
 
-Matrix Matrix::jacobi_solve(const Matrix &A, const Matrix &b, double max_error)
+Matrix Matrix::jacobi_solve(const Matrix &A, const Matrix &b, double max_error, std::string residual_out_path)
 {
     if(b.columns != 1)
     {
@@ -341,20 +342,27 @@ Matrix Matrix::jacobi_solve(const Matrix &A, const Matrix &b, double max_error)
     Matrix Y = D % b;
     r = (X * r) + Y;
 
-    Matrix res = (A * r) - b;
-    double old_res_norm = norm(res);
+    std::ofstream data_file(residual_out_path);
 
-    while(norm(res) > max_error)
+    double old_res_norm, new_res_norm = norm((A * r) - b);
+
+    while(new_res_norm > max_error)
     {
+        data_file << new_res_norm << "\n";
         r = (X * r) + Y;
-        old_res_norm = norm(res);
-        res = (A * r) - b;
+        old_res_norm = new_res_norm;
+        new_res_norm = norm((A * r) - b);
 
-        if(norm(res) > old_res_norm)
+        if(new_res_norm > old_res_norm)
         {
+            data_file.close();
             throw std::runtime_error("residual increasing!");
         }
     }
+
+    data_file << new_res_norm << "\n";
+
+    data_file.close();
 
     return r;
 }
@@ -476,7 +484,7 @@ Matrix &Matrix::operator=(const Matrix &right_matrix)
     return *this;
 }
 
-Matrix Matrix::gauss_solve(const Matrix &A, const Matrix &b, double max_error)
+Matrix Matrix::gauss_solve(const Matrix &A, const Matrix &b, double max_error, std::string residual_out_path)
 {
     if(b.columns != 1)
     {
@@ -493,13 +501,26 @@ Matrix Matrix::gauss_solve(const Matrix &A, const Matrix &b, double max_error)
     Matrix Y = (D + L) % b;
     r = (X * (U * r)) + Y;
 
-    Matrix res = (A * r) - b;
+    std::ofstream data_file(residual_out_path);
 
-    while(norm(res) > max_error)
+    double old_res_norm, new_res_norm = norm((A * r) - b);
+    while(new_res_norm > max_error)
     {
+        data_file << new_res_norm << "\n";
         r = X * (U * r) + Y;
-        res = (A * r) - b;
+        old_res_norm = new_res_norm;
+        new_res_norm = norm((A * r) - b);
+
+        if(new_res_norm > old_res_norm)
+        {
+            data_file.close();
+            throw std::runtime_error("residual increasing!");
+        }
     }
+
+    data_file << new_res_norm << "\n";
+
+    data_file.close();
 
     return r;
 }
