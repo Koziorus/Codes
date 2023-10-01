@@ -1,1 +1,0 @@
-pliki server.c oraz client.c nalezy polaczyc z oryginalnym plikiem z pipami
