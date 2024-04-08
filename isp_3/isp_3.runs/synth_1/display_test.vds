@@ -1,0 +1,40 @@
+#-----------------------------------------------------------
+# Vivado v2023.2 (64-bit)
+# SW Build 4029153 on Fri Oct 13 20:14:34 MDT 2023
+# IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+# SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+# Start of session at: Mon Apr  8 20:37:34 2024
+# Process ID: 15080
+# Current directory: C:/Users/Koz/Vivado_projects/isp_3/isp_3.runs/synth_1
+# Command line: vivado.exe -log display_test.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source display_test.tcl
+# Log file: C:/Users/Koz/Vivado_projects/isp_3/isp_3.runs/synth_1/display_test.vds
+# Journal file: C:/Users/Koz/Vivado_projects/isp_3/isp_3.runs/synth_1\vivado.jou
+# Running On: KOZPC1, OS: Windows, CPU Frequency: 3600 MHz, CPU Physical cores: 8, Host memory: 34290 MB
+#-----------------------------------------------------------
+source display_test.tcl -notrace
+create_project: Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 484.938 ; gain = 181.375
+Command: synth_design -top display_test -part xc7a100tcsg324-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a100t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a100t'
+INFO: [Device 21-403] Loading part xc7a100tcsg324-1
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 14724
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 1333.535 ; gain = 439.133
+---------------------------------------------------------------------------------
+ERROR: [Synth 8-2716] syntax error near 'for' [C:/Users/Koz/Vivado_projects/isp_3/isp_3.srcs/sources_1/new/display.vhd:49]
+ERROR: [Synth 8-2716] syntax error near 'loop' [C:/Users/Koz/Vivado_projects/isp_3/isp_3.srcs/sources_1/new/display.vhd:49]
+INFO: [Synth 8-11252] unit 'behavioral' is ignored due to previous errors [C:/Users/Koz/Vivado_projects/isp_3/isp_3.srcs/sources_1/new/display.vhd:57]
+INFO: [Synth 8-10443] VHDL file 'C:/Users/Koz/Vivado_projects/isp_3/isp_3.srcs/sources_1/new/display.vhd' is ignored due to errors
+ERROR: [Synth 8-439] module 'display_test' not found
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:08 . Memory (MB): peak = 1442.699 ; gain = 548.297
+---------------------------------------------------------------------------------
+RTL Elaboration failed
+INFO: [Common 17-83] Releasing license: Synthesis
+8 Infos, 0 Warnings, 0 Critical Warnings and 4 Errors encountered.
+synth_design failed
+ERROR: [Common 17-69] Command failed: Synthesis failed - please see the console or run log file for details
+INFO: [Common 17-206] Exiting Vivado at Mon Apr  8 20:37:53 2024...

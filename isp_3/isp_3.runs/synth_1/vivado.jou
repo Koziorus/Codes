@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Vivado v2023.2 (64-bit)
+# SW Build 4029153 on Fri Oct 13 20:14:34 MDT 2023
+# IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+# SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+# Start of session at: Mon Apr  8 20:37:34 2024
+# Process ID: 15080
+# Current directory: C:/Users/Koz/Vivado_projects/isp_3/isp_3.runs/synth_1
+# Command line: vivado.exe -log display_test.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source display_test.tcl
+# Log file: C:/Users/Koz/Vivado_projects/isp_3/isp_3.runs/synth_1/display_test.vds
+# Journal file: C:/Users/Koz/Vivado_projects/isp_3/isp_3.runs/synth_1\vivado.jou
+# Running On: KOZPC1, OS: Windows, CPU Frequency: 3600 MHz, CPU Physical cores: 8, Host memory: 34290 MB
+#-----------------------------------------------------------
+source display_test.tcl -notrace
