@@ -1,0 +1,25 @@
+[Microcode]
+;uAR |Label |ALU   |S1    |S2    |Dest  |ExtIR |Const |JCond |Adr   |Mem   |MAdr  |MDest |Regs
+0000 |Start |      |      |      |      |      |      |      |      |RW    |PC    |IR    |      
+0001 |      |ADD   |PC    |Const |PC    |      |4     |Jump1 |      |      |      |      |      
+0002 |Put   |ADD   |IR    |Const |C     |Word  |0     |      |      |      |      |      |      
+0003 |      |      |      |      |      |      |      |True  |Start |      |      |      |WF1   
+
+[Jump Tables]
+;Opcode  |Jump Table 1 |Jump Table 2 
+LOADimm  |             |             
+STOREimm |             |             
+ADDreg   |             |             
+ORreg    |             |             
+JMPrel   |             |             
+PUTimm   |Put          |             
+NOP      |             |             
+NOP      |             |             
+NOP      |             |             
+NOP      |             |             
+NOP      |             |             
+NOP      |             |             
+NOP      |             |             
+NOP      |             |             
+NOP      |             |             
+

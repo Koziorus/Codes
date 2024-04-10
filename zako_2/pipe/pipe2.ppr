@@ -1,0 +1,7 @@
+[Pipelined Architecture Project]
+PipelineFunctionality=pipe2.pfu
+InstructionMemory=pipe2.cod
+DataMemory=pipe2.dat
+MemoryAccessTime=1
+Forwarding=yes
+DelaySlot=0
